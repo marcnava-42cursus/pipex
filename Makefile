@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2024/12/06 19:24:31 by marcnava         ###   ########.fr        #
+#    Updated: 2024/12/10 21:31:43 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,10 @@ LIBS		=	./libs/libft
 # **************************************************************************** #
 #		FILES		#
 
-SRCS 		=	pipex.c \
-				message_handler.c \
-				processes.c
+SRCS 		=	pipex.c				\
+				message_handler.c	\
+				processes.c			\
+				pipex_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 
