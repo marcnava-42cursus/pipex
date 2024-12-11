@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 17:41:21 by marcnava          #+#    #+#             */
-/*   Updated: 2024/12/11 04:01:07 by marcnava         ###   ########.fr       */
+/*   Created: 2024/12/11 21:01:04 by marcnava          #+#    #+#             */
+/*   Updated: 2024/12/11 21:08:46 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,31 @@ static void	error_usage(int fd)
 	ft_putendl_fd("Usage: ./pipex <file1> <command1> <command2> <file2>", fd);
 }
 
-static void	error_pipes(int fd)
-{
-	ft_putendl_fd("Error: Cannot handle pipe file descriptors.", fd);
-}
-
-static void	error_pid(int fd)
-{
-	ft_putendl_fd("Error: Cannot access process.", fd);
-}
-
-static void	error_fd(int fd)
-{
-	ft_putendl_fd("Error: Cannot open file descriptor.", fd);
-}
-
 void	ft_error(int error_code, int fd)
 {
 	if (error_code == ERR_ARGS)
+	{
 		error_usage(fd);
-	if (error_code == ERR_PIPE)
-		error_pipes(fd);
-	if (error_code == ERR_NOPID)
-		error_pid(fd);
-	if (error_code == ERR_FD)
-		error_fd(fd);
-	exit(error_code);
+		exit(error_code);
+	}
+	else if (error_code == ERR_PIPE)
+	{
+		perror("Error: Cannot handle pipe file descriptors");
+		exit(errno);
+	}
+	else if (error_code == ERR_NOPID)
+	{
+		perror("Error: Cannot access process");
+		exit(errno);
+	}
+	else if (error_code == ERR_FD)
+	{
+		perror("Error: Cannot open file descriptor");
+		exit(errno);
+	}
+	else
+	{
+		ft_putendl_fd("Unknown error occurred", fd);
+		exit(EXIT_FAILURE);
+	}
 }

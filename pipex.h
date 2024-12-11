@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:39:34 by marcnava          #+#    #+#             */
-/*   Updated: 2024/12/11 04:00:13 by marcnava         ###   ########.fr       */
+/*   Updated: 2024/12/11 21:51:01 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PIPEX_H
 
 # include "libs/libft/headers/libft.h"
+# include <errno.h>
+# include <string.h>
 
 typedef enum e_errors
 {
@@ -21,7 +23,7 @@ typedef enum e_errors
 	ERR_ARGS = 2,
 	ERR_NOPID = 3,
 	ERR_FD = 4,
-	ERR_EXEC = 5
+	ERR_EXEC = 127
 }		t_errors;
 
 // Error Handler
@@ -37,5 +39,10 @@ void	parent_process(char **argv, int *pipe_fds, char **env);
 
 char	*get_path(char *command, char **env);
 int		get_fd(char *path, int rw);
+
+// Frees
+
+void	free_all(int count, ...);
+void	free_all_matrix(int count, ...);
 
 #endif

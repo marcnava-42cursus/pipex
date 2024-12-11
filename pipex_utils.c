@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:31:23 by marcnava          #+#    #+#             */
-/*   Updated: 2024/12/11 04:12:08 by marcnava         ###   ########.fr       */
+/*   Updated: 2024/12/11 22:21:30 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static char	*get_env(char *name, char **env)
 		env_name = ft_substr(env[i], 0, j);
 		if (ft_strcmp(env_name, name) == 0)
 		{
-			ft_free((void *)&env_name);
+			free(env_name);
 			return (env[i] + j + 1);
 		}
-		ft_free((void **)&env_name);
+		free(env_name);
 		i++;
 	}
 	return (NULL);
@@ -40,6 +40,7 @@ char	*get_path(char *command, char **env)
 {
 	int		i;
 	char	*path;
+	char	*full_path;
 	char	**paths;
 	char	**split_command;
 
@@ -48,17 +49,19 @@ char	*get_path(char *command, char **env)
 	i = 0;
 	while (paths[i])
 	{
-		path = ft_strjoin(paths[i++], ft_strjoin("/", split_command[0]));
-		if (access(path, F_OK | X_OK) == 0)
-		{
-			ft_free_matrix((void **)&split_command);
-			return (path);
-		}
-		ft_free((void **)&path);
+		path = ft_strjoin(paths[i], "/");
+		if (!path)
+			return (free_all_matrix(2, split_command, paths), NULL);
+		full_path = ft_strjoin(path, split_command[0]);
+		free(path);
+		if (!full_path)
+			return (free_all_matrix(2, split_command, paths), NULL);
+		if (access(full_path, F_OK | X_OK) == 0)
+			return (free_all_matrix(2, split_command, paths), full_path);
+		free(full_path);
+		i++;
 	}
-	ft_free_matrix((void **)&split_command);
-	ft_free_matrix((void **)&paths);
-	return (command);
+	return (free_all_matrix(2, split_command, paths), command);
 }
 
 int	get_fd(char *path, int rw)
@@ -69,7 +72,7 @@ int	get_fd(char *path, int rw)
 		fd = open(path, O_RDONLY, 0777);
 	if (rw == 1)
 		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (rw == -1)
+	if (fd == -1)
 		ft_error(ERR_FD, 2);
 	return (fd);
 }
