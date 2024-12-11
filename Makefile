@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2024/12/10 21:31:43 by marcnava         ###   ########.fr        #
+#    Updated: 2024/12/11 02:14:57 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ NAME		=	pipex
 CC			=	cc
 RM			=	rm -rf
 
-CFLAGS		=	-Wall -Wextra -Werror
+# CFLAGS		=	-Wall -Wextra -Werror
 
 COMPILER	=	$(CC) $(CFLAGS) -I
 
-INCLUDE		=	./pipex.h
+INCLUDE		=	.
 
 # **************************************************************************** #
 #		FOLDERS		#
@@ -34,7 +34,7 @@ LIBS		=	./libs/libft
 #		FILES		#
 
 SRCS 		=	pipex.c				\
-				message_handler.c	\
+				error_handler.c		\
 				processes.c			\
 				pipex_utils.c
 
