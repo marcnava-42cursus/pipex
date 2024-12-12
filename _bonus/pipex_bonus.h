@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 17:39:34 by marcnava          #+#    #+#             */
-/*   Updated: 2024/12/12 20:49:19 by marcnava         ###   ########.fr       */
+/*   Created: 2024/12/12 15:42:12 by marcnava          #+#    #+#             */
+/*   Updated: 2024/12/12 20:51:54 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "libs/libft/headers/libft.h"
 # include <errno.h>
@@ -39,5 +39,10 @@ void	parent_process(char **argv, int *pipe_fds, char **env);
 
 char	*get_path(char *command, char **env);
 int		get_fd(char *path, int rw);
+
+// Frees
+
+void	free_all(int count, ...);
+void	free_all_matrix(int count, ...);
 
 #endif

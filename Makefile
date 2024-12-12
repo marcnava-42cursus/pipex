@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2024/12/11 21:57:47 by marcnava         ###   ########.fr        #
+#    Updated: 2024/12/12 20:45:51 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,7 @@ LIBS		=	./libs/libft
 SRCS 		=	pipex.c				\
 				error_handler.c		\
 				processes.c			\
-				pipex_utils.c		\
-				frees.c
+				pipex_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 

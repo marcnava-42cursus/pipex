@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:31:23 by marcnava          #+#    #+#             */
-/*   Updated: 2024/12/11 22:21:30 by marcnava         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:21:35 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ static char	*get_env(char *name, char **env)
 	return (NULL);
 }
 
+static void	free_matrixes(char **m1, char **m2)
+{
+	ft_free_matrix((void **)m1);
+	ft_free_matrix((void **)m2);
+}
+
 char	*get_path(char *command, char **env)
 {
 	int		i;
@@ -51,17 +57,17 @@ char	*get_path(char *command, char **env)
 	{
 		path = ft_strjoin(paths[i], "/");
 		if (!path)
-			return (free_all_matrix(2, split_command, paths), NULL);
+			return (free_matrixes(split_command, paths), NULL);
 		full_path = ft_strjoin(path, split_command[0]);
 		free(path);
 		if (!full_path)
-			return (free_all_matrix(2, split_command, paths), NULL);
+			return (free_matrixes(split_command, paths), NULL);
 		if (access(full_path, F_OK | X_OK) == 0)
-			return (free_all_matrix(2, split_command, paths), full_path);
+			return (free_matrixes(split_command, paths), full_path);
 		free(full_path);
 		i++;
 	}
-	return (free_all_matrix(2, split_command, paths), command);
+	return (free_matrixes(split_command, paths), command);
 }
 
 int	get_fd(char *path, int rw)
