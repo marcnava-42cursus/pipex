@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processes.c                                        :+:      :+:    :+:   */
+/*   pipe_manager_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 19:17:06 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/24 16:34:55 by marcnava         ###   ########.fr       */
+/*   Created: 2025/01/24 19:29:17 by marcnava          #+#    #+#             */
+/*   Updated: 2025/01/29 16:49:52 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-static void	run(char *command, char **env)
+void	run(char *command, char **env)
 {
 	char	**split_command;
 	char	*path;
@@ -27,24 +27,25 @@ static void	run(char *command, char **env)
 	}
 }
 
-void	parent_process(char **argv, int *pipe_fds, char **env)
+void	new_pipe(char *command, char **env)
 {
-	int	fd;
+	pid_t	pid;
+	int		pipe_fds[2];
 
-	fd = get_fd(argv[4], O_WRONLY);
-	dup2(fd, STDOUT_FILENO);
-	dup2(pipe_fds[0], STDIN_FILENO);
-	close(pipe_fds[1]);
-	run(argv[3], env);
-}
-
-void	child_process(char **argv, int *pipe_fds, char **env)
-{
-	int	fd;
-
-	fd = get_fd(argv[1], O_RDONLY);
-	dup2(fd, STDIN_FILENO);
-	dup2(pipe_fds[1], STDOUT_FILENO);
-	close(pipe_fds[0]);
-	run(argv[2], env);
+	if (pipe(pipe_fds) == -1)
+		ft_error(ERR_PIPE, STDERR_FILENO);
+	pid = fork();
+	if (pid == -1)
+		ft_error(ERR_NOPID, STDERR_FILENO);
+	if (!pid)
+	{
+		close(pipe_fds[0]);
+		dup2(pipe_fds[1], STDOUT_FILENO);
+		run(command, env);
+	}
+	else
+	{
+		close(pipe_fds[1]);
+		dup2(pipe_fds[0], STDIN_FILENO);
+	}
 }

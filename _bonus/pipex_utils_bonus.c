@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 21:31:23 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/29 16:49:16 by marcnava         ###   ########.fr       */
+/*   Created: 2025/01/24 20:13:02 by marcnava          #+#    #+#             */
+/*   Updated: 2025/01/29 17:29:20 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
+
+static void	free_matrixes(char **m1, char **m2)
+{
+	ft_free_matrix((void **)m1);
+	ft_free_matrix((void **)m2);
+}
 
 static char	*get_env(char *name, char **env)
 {
@@ -19,6 +25,8 @@ static char	*get_env(char *name, char **env)
 	char	*env_name;
 
 	i = 0;
+	if (env == NULL || *env == NULL)
+		ft_error(ERR_ENV, STDERR_FILENO);
 	while (env[i])
 	{
 		j = 0;
@@ -36,12 +44,6 @@ static char	*get_env(char *name, char **env)
 	return (NULL);
 }
 
-static void	free_matrixes(char **m1, char **m2)
-{
-	ft_free_matrix((void **)m1);
-	ft_free_matrix((void **)m2);
-}
-
 char	*get_path(char *command, char **env)
 {
 	int		i;
@@ -50,9 +52,9 @@ char	*get_path(char *command, char **env)
 	char	**paths;
 	char	**split_command;
 
+	i = 0;
 	paths = ft_split(get_env("PATH", env), ':');
 	split_command = ft_split(command, ' ');
-	i = 0;
 	while (paths[i])
 	{
 		path = ft_strjoin(paths[i], "/");
@@ -78,6 +80,8 @@ int	get_fd(char *path, int rw)
 		fd = open(path, O_RDONLY, 0777);
 	if (rw == 1)
 		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (rw == 2)
+		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
 		ft_error(ERR_FD, STDERR_FILENO);
 	return (fd);

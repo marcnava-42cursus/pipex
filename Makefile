@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2024/12/12 20:45:51 by marcnava         ###   ########.fr        #
+#    Updated: 2025/01/29 16:15:20 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME		=	pipex
 CC			=	cc
 RM			=	rm -rf
 
-# CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 
 COMPILER	=	$(CC) $(CFLAGS) -I
 
@@ -29,16 +29,24 @@ INCLUDE		=	.
 
 SRCSPATH	=	./src
 LIBS		=	./libs/libft
+BONUS		=	./_bonus
 
 # **************************************************************************** #
 #		FILES		#
 
-SRCS 		=	pipex.c				\
-				error_handler.c		\
-				processes.c			\
-				pipex_utils.c
+SRCS 		=	error_handler.c					\
+				pipex_utils.c					\
+				pipex.c							\
+				processes.c
+
+SRCS_BONUS	=	$(BONUS)/error_handler_bonus.c	\
+				$(BONUS)/here_doc_bonus.c		\
+				$(BONUS)/pipe_manager_bonus.c	\
+				$(BONUS)/pipex_bonus.c			\
+				$(BONUS)/pipex_utils_bonus.c
 
 OBJS		=	$(SRCS:.c=.o)
+OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
 
 # **************************************************************************** #
 #		RULES		#
@@ -56,8 +64,13 @@ $(NAME):		$(OBJS) $(LIBS)/libft.a
 %.o:			%.c
 				@$(COMPILER) $(INCLUDE) -c $< -o $@
 
+bonus:			$(OBJS_BONUS) $(LIBS)/libft.a
+				@$(COMPILER) $(INCLUDE) $(OBJS_BONUS) $(LIBS)/libft.a -o $(NAME)
+				@$(MAKE) --no-print-directory -C $(LIBS) fclean
+				@printf "Compiled.\n"
+
 clean:
-				@$(RM) $(OBJS)
+				@$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean:			clean
 				@$(RM) $(NAME)
@@ -67,4 +80,4 @@ compiling:
 
 re:				fclean all
 
-.PHONY:			all clean fclean re compiling
+.PHONY:			all clean fclean re compiling bonus

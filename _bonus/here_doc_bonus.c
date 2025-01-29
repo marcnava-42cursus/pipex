@@ -1,31 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 17:40:43 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/29 16:49:33 by marcnava         ###   ########.fr       */
+/*   Created: 2025/01/27 17:51:26 by marcnava          #+#    #+#             */
+/*   Updated: 2025/01/29 16:49:44 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	main(int argc, char **argv, char **env)
+static void	get_input(char **argv, int *pipe_fds)
+{
+	char	*line;
+
+	close(pipe_fds[0]);
+	while ("true")
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (!line || ft_strncmp(line, argv[2], ft_strlen(argv[2])) == 0)
+		{
+			close(pipe_fds[1]);
+			ft_free((void **)&line);
+			exit(0);
+		}
+		ft_putstr_fd(line, pipe_fds[1]);
+		ft_free((void **)&line);
+	}
+}
+
+void	here_doc(char **argv)
 {
 	int		pipe_fds[2];
 	pid_t	pid;
 
-	if (argc != 5)
-		ft_error(ERR_ARGS, STDERR_FILENO);
 	if (pipe(pipe_fds) == -1)
 		ft_error(ERR_PIPE, STDERR_FILENO);
 	pid = fork();
 	if (pid == -1)
 		ft_error(ERR_NOPID, STDERR_FILENO);
 	if (!pid)
-		child_process(argv, pipe_fds, env);
-	parent_process(argv, pipe_fds, env);
-	return (0);
+		get_input(argv, pipe_fds);
+	else
+	{
+		close(pipe_fds[1]);
+		dup2(pipe_fds[0], STDIN_FILENO);
+		wait(NULL);
+	}
 }

@@ -1,0 +1,9 @@
+.vscode/
+
+input
+output
+pipex
+
+*.a
+*.out
+*.o

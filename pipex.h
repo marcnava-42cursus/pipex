@@ -6,16 +6,19 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:39:34 by marcnava          #+#    #+#             */
-/*   Updated: 2024/12/12 20:49:19 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:31:34 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libs/libft/headers/libft.h"
-# include <errno.h>
+# include "libs/libft/includes/libft.h"
+# include <sys/types.h>
+# include <unistd.h>
 # include <string.h>
+# include <errno.h>
+# include <fcntl.h>
 
 typedef enum e_errors
 {
