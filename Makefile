@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2025/01/29 16:15:20 by marcnava         ###   ########.fr        #
+#    Updated: 2025/01/29 20:41:22 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ $(LIBS)/libft.a:
 
 $(NAME):		$(OBJS) $(LIBS)/libft.a
 				@$(COMPILER) $(INCLUDE) $(OBJS) $(LIBS)/libft.a -o $(NAME)
-				@$(MAKE) --no-print-directory -C $(LIBS) fclean
 				@printf "Compiled.\n"
 
 %.o:			%.c
@@ -66,7 +65,6 @@ $(NAME):		$(OBJS) $(LIBS)/libft.a
 
 bonus:			$(OBJS_BONUS) $(LIBS)/libft.a
 				@$(COMPILER) $(INCLUDE) $(OBJS_BONUS) $(LIBS)/libft.a -o $(NAME)
-				@$(MAKE) --no-print-directory -C $(LIBS) fclean
 				@printf "Compiled.\n"
 
 clean:
@@ -74,6 +72,7 @@ clean:
 
 fclean:			clean
 				@$(RM) $(NAME)
+				@$(MAKE) --no-print-directory -C $(LIBS) fclean
 
 compiling:
 				@printf "Compiling program...\n"

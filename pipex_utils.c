@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:31:23 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/29 16:49:16 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:57:59 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	*get_env(char *name, char **env)
 	char	*env_name;
 
 	i = 0;
+	if (env == NULL || *env == NULL)
+		ft_error(ERR_ENV, STDERR_FILENO);
 	while (env[i])
 	{
 		j = 0;

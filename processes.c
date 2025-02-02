@@ -6,11 +6,23 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:17:06 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/24 16:34:55 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/02/02 16:52:27 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	free_matrix(char **matrix)
+{
+	int i = 0;
+
+	while (matrix && matrix[i])
+	{
+		ft_free((void **)&matrix[i]);
+		i++;
+	}
+	ft_free((void **)matrix);
+}
 
 static void	run(char *command, char **env)
 {
@@ -18,11 +30,15 @@ static void	run(char *command, char **env)
 	char	*path;
 
 	split_command = ft_split(command, ' ');
+	if (!split_command)
+		exit(ERR_MEM);
 	path = get_path(split_command[0], env);
 	if (execve(path, split_command, env) == -1)
 	{
 		ft_putstr_fd("pipex: command not found: ", STDERR_FILENO);
 		ft_putendl_fd(split_command[0], STDERR_FILENO);
+		ft_free((void **)&path);
+		free_matrix(split_command);
 		exit(ERR_EXEC);
 	}
 }

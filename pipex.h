@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:39:34 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/24 16:31:34 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/02/02 16:29:41 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef enum e_errors
 	ERR_ARGS = 2,
 	ERR_NOPID = 3,
 	ERR_FD = 4,
+	ERR_ENV = 5,
+	ERR_MEM = 12,
 	ERR_EXEC = 127
 }		t_errors;
 
