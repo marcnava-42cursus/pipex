@@ -6,11 +6,11 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 21:01:04 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/29 17:33:46 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:25:11 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "../includes/pipex_bonus.h"
 
 static void	error_usage(int error_code, int fd)
 {
@@ -20,6 +20,8 @@ static void	error_usage(int error_code, int fd)
 	ft_putendl_fd("Error: invalid number of arguments.", fd);
 	ft_printf("Usages:\n\t./pipex <input> %s\n", cmdfile);
 	ft_printf("\t./pipex %s\n", heredoc);
+	ft_free((void *)&heredoc);
+	close(fd);
 	exit(error_code);
 }
 

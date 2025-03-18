@@ -6,15 +6,16 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:39:34 by marcnava          #+#    #+#             */
-/*   Updated: 2025/02/02 16:29:41 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:54:12 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libs/libft/includes/libft.h"
+# include "../libs/libft/includes/libft.h"
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <string.h>
 # include <errno.h>
@@ -27,6 +28,7 @@ typedef enum e_errors
 	ERR_NOPID = 3,
 	ERR_FD = 4,
 	ERR_ENV = 5,
+	ERR_NULL = 6,
 	ERR_MEM = 12,
 	ERR_EXEC = 127
 }		t_errors;
@@ -43,6 +45,6 @@ void	parent_process(char **argv, int *pipe_fds, char **env);
 // Utils
 
 char	*get_path(char *command, char **env);
-int		get_fd(char *path, int rw);
+void	free_matrix(char **matrix);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:31:23 by marcnava          #+#    #+#             */
-/*   Updated: 2025/02/02 15:57:59 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:04:03 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 static char	*get_env(char *name, char **env)
 {
@@ -29,19 +29,32 @@ static char	*get_env(char *name, char **env)
 		env_name = ft_substr(env[i], 0, j);
 		if (ft_strcmp(env_name, name) == 0)
 		{
-			free(env_name);
+			ft_free((void **)&env_name);
 			return (env[i] + j + 1);
 		}
-		free(env_name);
+		ft_free((void **)&env_name);
 		i++;
 	}
 	return (NULL);
 }
 
+void	free_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix && matrix[i])
+	{
+		ft_free((void **)&matrix[i]);
+		i++;
+	}
+	ft_free((void **)&matrix);
+}
+
 static void	free_matrixes(char **m1, char **m2)
 {
-	ft_free_matrix((void **)m1);
-	ft_free_matrix((void **)m2);
+	free_matrix(m1);
+	free_matrix(m2);
 }
 
 char	*get_path(char *command, char **env)
@@ -52,7 +65,13 @@ char	*get_path(char *command, char **env)
 	char	**paths;
 	char	**split_command;
 
+	if (!command || !*command || !env)
+		return (NULL);
+	if (access(command, F_OK | X_OK) == 0)
+		return (command);
 	paths = ft_split(get_env("PATH", env), ':');
+	if (!paths)
+		return (NULL);
 	split_command = ft_split(command, ' ');
 	i = 0;
 	while (paths[i])
@@ -61,26 +80,13 @@ char	*get_path(char *command, char **env)
 		if (!path)
 			return (free_matrixes(split_command, paths), NULL);
 		full_path = ft_strjoin(path, split_command[0]);
-		free(path);
+		ft_free((void **)&path);
 		if (!full_path)
 			return (free_matrixes(split_command, paths), NULL);
 		if (access(full_path, F_OK | X_OK) == 0)
 			return (free_matrixes(split_command, paths), full_path);
-		free(full_path);
+		ft_free((void **)&full_path);
 		i++;
 	}
-	return (free_matrixes(split_command, paths), command);
-}
-
-int	get_fd(char *path, int rw)
-{
-	int	fd;
-
-	if (rw == 0)
-		fd = open(path, O_RDONLY, 0777);
-	if (rw == 1)
-		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fd == -1)
-		ft_error(ERR_FD, STDERR_FILENO);
-	return (fd);
+	return (free_matrixes(split_command, paths), NULL);
 }

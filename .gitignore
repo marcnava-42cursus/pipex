@@ -1,7 +1,9 @@
 .vscode/
+files/
+build/
+42_pipex_tester/
+tests/
 
-input
-output
 pipex
 
 *.a

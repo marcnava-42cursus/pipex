@@ -6,14 +6,15 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:42:12 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/29 17:19:54 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:00:19 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
-# include "libs/libft/includes/libft.h"
+# include "../libs/libft/includes/libft.h"
+
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>

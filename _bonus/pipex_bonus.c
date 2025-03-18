@@ -6,11 +6,11 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:41:00 by marcnava          #+#    #+#             */
-/*   Updated: 2025/01/29 16:50:13 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:36:05 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "../includes/pipex_bonus.h"
 
 static int	handle_heredoc_mode(int *index, int argc, char **argv)
 {
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 	while (index < argc - 2)
 		new_pipe(argv[index++], env);
 	dup2(fd_output, STDOUT_FILENO);
+	close(fd_output);
 	run(argv[argc - 2], env);
 	return (0);
 }
