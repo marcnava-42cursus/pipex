@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:17:06 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/17 15:41:22 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 08:28:34 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	*run(char *command, char **env)
 
 	split_command = ft_split(command, ' ');
 	if (!split_command)
-		return (free_matrix(split_command), exit(ERR_MEM), NULL);
+		exit(ERR_MEM);
 	path = get_path(split_command[0], env);
 	if (!path)
 	{
-		free_matrix(split_command); 
-		exit(ERR_MEM);
+		free_matrix(split_command);
+		ft_error(ERR_EXEC, STDERR_FILENO);
 	}
 	if (execve(path, split_command, env) == -1)
 	{
@@ -61,7 +61,7 @@ void	parent_process(char **argv, int *pipe_fds, char **env)
 void	child_process(char **argv, int *pipe_fds, char **env)
 {
 	int	fd;
-	
+
 	fd = open(argv[1], O_RDONLY, 0664);
 	if (fd == -1)
 	{

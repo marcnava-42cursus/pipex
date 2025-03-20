@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:41:00 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/10 19:36:05 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:16:03 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	handle_standard_mode(int *index, int argc, char **argv)
 	*index = 2;
 	in = get_fd(argv[1], 0);
 	dup2(in, STDIN_FILENO);
+	close(in);
 	return (get_fd(argv[argc - 1], 1));
 }
 
@@ -47,5 +48,7 @@ int	main(int argc, char **argv, char **env)
 	dup2(fd_output, STDOUT_FILENO);
 	close(fd_output);
 	run(argv[argc - 2], env);
+	while (wait(NULL) > 0)
+		;
 	return (0);
 }

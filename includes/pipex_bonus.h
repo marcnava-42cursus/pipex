@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:42:12 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/10 17:00:19 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 08:36:45 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef enum e_errors
 	ERR_NOPID = 3,
 	ERR_FD = 4,
 	ERR_ENV = 5,
+	ERR_NULL = 6,
+	ERR_MEM = 12,
 	ERR_EXEC = 127
 }		t_errors;
 
@@ -43,6 +45,8 @@ void	run(char *command, char **env);
 
 // Utils
 
+void	free_matrix(char **matrix);
+void	free_matrixes(char **m1, char **m2);
 char	*get_path(char *command, char **env);
 int		get_fd(char *path, int rw);
 void	here_doc(char **argv);

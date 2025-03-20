@@ -5,7 +5,9 @@ build/
 tests/
 
 pipex
+.gitignore
 
 *.a
 *.out
 *.o
+*.sh

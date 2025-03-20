@@ -6,16 +6,29 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 20:13:02 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/10 19:35:43 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 08:33:43 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-static void	free_matrixes(char **m1, char **m2)
+void	free_matrix(char **matrix)
 {
-	ft_free_matrix((void **)m1);
-	ft_free_matrix((void **)m2);
+	int	i;
+
+	i = 0;
+	while (matrix && matrix[i])
+	{
+		ft_free((void **)&matrix[i]);
+		i++;
+	}
+	ft_free((void **)&matrix);
+}
+
+void	free_matrixes(char **m1, char **m2)
+{
+	free_matrix(m1);
+	free_matrix(m2);
 }
 
 static char	*get_env(char *name, char **env)

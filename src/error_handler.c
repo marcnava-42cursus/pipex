@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 21:01:04 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/17 18:01:27 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 08:28:37 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	ft_error(int error_code, int fd)
 		error_handler("Error: Cannot access environment variables");
 	else if (error_code == ERR_NULL)
 		error_handler("Error: Null command");
+	else if (error_code == ERR_EXEC)
+		error_handler("Error: Command not found");
 	else
 		error_unknown(fd);
 }

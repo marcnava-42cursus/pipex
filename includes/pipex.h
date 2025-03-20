@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:39:34 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/17 17:54:12 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:11:33 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ void	parent_process(char **argv, int *pipe_fds, char **env);
 
 char	*get_path(char *command, char **env);
 void	free_matrix(char **matrix);
+void	free_matrixes(char **m1, char **m2);
 
 #endif

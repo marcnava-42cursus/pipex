@@ -6,13 +6,13 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 21:01:04 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/10 20:25:11 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 08:41:11 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-static void	error_usage(int error_code, int fd)
+static void	error_usage(int fd)
 {
 	const char	*cmdfile = "<command1> <command2> <output>";
 	const char	*heredoc = ft_strjoin("'here_doc' <DELIMITER> ", cmdfile);
@@ -21,29 +21,37 @@ static void	error_usage(int error_code, int fd)
 	ft_printf("Usages:\n\t./pipex <input> %s\n", cmdfile);
 	ft_printf("\t./pipex %s\n", heredoc);
 	ft_free((void *)&heredoc);
-	close(fd);
-	exit(error_code);
+	exit(ERR_ARGS);
+}
+
+static void	error_unknown(int fd)
+{
+	ft_putendl_fd("Unknown error occurred", fd);
+	exit(EXIT_FAILURE);
+}
+
+static void	error_handler(char *err_msg)
+{
+	perror(err_msg);
+	exit(errno);
 }
 
 void	ft_error(int error_code, int fd)
 {
 	if (error_code == ERR_ARGS)
-		error_usage(error_code, fd);
+		error_usage(fd);
 	else if (error_code == ERR_PIPE)
-		perror("Error: Cannot handle pipe file descriptors");
+		error_handler("Error: Cannot handle pipe file descriptors");
 	else if (error_code == ERR_NOPID)
-		perror("Error: Cannot access process");
+		error_handler("Error: Cannot access process");
 	else if (error_code == ERR_FD)
-		perror("Error: Cannot open file descriptor");
+		error_handler("Error: Cannot open file descriptor");
 	else if (error_code == ERR_ENV)
-	{
-		ft_putendl_fd("Error: Cannot access environment variables", fd);
-		exit(EXIT_FAILURE);
-	}
+		error_handler("Error: Cannot access environment variables");
+	else if (error_code == ERR_NULL)
+		error_handler("Error: Null command");
+	else if (error_code == ERR_EXEC)
+		error_handler("Error: Command not found");
 	else
-	{
-		ft_putendl_fd("Unknown error occurred", fd);
-		exit(EXIT_FAILURE);
-	}
-	exit(errno);
+		error_unknown(fd);
 }

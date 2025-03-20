@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2025/03/17 13:45:41 by marcnava         ###   ########.fr        #
+#    Updated: 2025/03/20 08:18:27 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ FRAMES		=	$(ANIMATION)/f1.c  $(ANIMATION)/f2.c  $(ANIMATION)/f3.c		\
 				$(ANIMATION)/f31.c $(ANIMATION)/f32.c $(ANIMATION)/f33.c
 
 SRCS 		=	$(SRCSPATH)/error_handler.c									\
+				$(SRCSPATH)/get_path.c										\
 				$(SRCSPATH)/pipex_utils.c									\
 				$(SRCSPATH)/pipex.c											\
 				$(SRCSPATH)/processes.c
@@ -67,7 +68,7 @@ OBJS_BONUS	=	$(SRCS_BONUS:$(BONUS)/%.c=$(BUILD)/%.o)
 #		RULES		#
 
 run:
-				# @make -s animate &
+				@make -s animate &
 				@$(MAKE) -s all
 				@wait $$!
 .PHONY: run
@@ -89,9 +90,9 @@ $(BUILD)/%.o:	$(BONUS)/%.c
 				@mkdir -p $(@D)
 				@$(COMPILER) -I$(INCLUDE) -c $< -o $@
 
-# bonus:			$(OBJS_BONUS) $(LIBFT)/libft.a
-# 				@$(COMPILER) -I$(INCLUDE) $(OBJS_BONUS) $(LIBFT)/libft.a -o $(NAME)
-# .PHONY: bonus
+bonus:			$(OBJS_BONUS) $(LIBFT)/libft.a
+				@$(COMPILER) -I$(INCLUDE) $(OBJS_BONUS) $(LIBFT)/libft.a -o $(NAME)
+.PHONY: bonus
 
 clean:
 				@$(RM) $(BUILD)

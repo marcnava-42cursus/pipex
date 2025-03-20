@@ -6,7 +6,7 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:51:26 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/10 19:39:57 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:19:12 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	get_input(char **argv, int *pipe_fds)
 		ft_putstr_fd(line, pipe_fds[1]);
 		ft_free((void **)&line);
 	}
+	close(pipe_fds[1]);
 }
 
 void	here_doc(char **argv)
@@ -40,16 +41,17 @@ void	here_doc(char **argv)
 		ft_error(ERR_PIPE, STDERR_FILENO);
 	pid = fork();
 	if (pid == -1)
-		ft_error(ERR_NOPID, STDERR_FILENO);
-	if (!pid)
 	{
 		close(pipe_fds[0]);
-		get_input(argv, pipe_fds);
+		close(pipe_fds[1]);
+		ft_error(ERR_NOPID, STDERR_FILENO);
 	}
+	if (!pid)
+		get_input(argv, pipe_fds);
 	else
 	{
-		dup2(pipe_fds[0], STDIN_FILENO);
 		close(pipe_fds[1]);
-		wait(NULL);
+		dup2(pipe_fds[0], STDIN_FILENO);
+		close(pipe_fds[0]);
 	}
 }

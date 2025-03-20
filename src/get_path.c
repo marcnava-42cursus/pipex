@@ -6,16 +6,42 @@
 /*   By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:07:17 by marcnava          #+#    #+#             */
-/*   Updated: 2025/03/18 18:09:40 by marcnava         ###   ########.fr       */
+/*   Updated: 2025/03/20 08:28:36 by marcnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
+static char	*get_env(char *name, char **env)
+{
+	int		i;
+	int		j;
+	char	*env_name;
+
+	i = 0;
+	if (env == NULL || *env == NULL)
+		ft_error(ERR_ENV, STDERR_FILENO);
+	while (env[i])
+	{
+		j = 0;
+		while (env[i][j] && env[i][j] != '=')
+			j++;
+		env_name = ft_substr(env[i], 0, j);
+		if (ft_strcmp(env_name, name) == 0)
+		{
+			ft_free((void **)&env_name);
+			return (env[i] + j + 1);
+		}
+		ft_free((void **)&env_name);
+		i++;
+	}
+	return (NULL);
+}
+
 static char	*join_path(char *dir, char *file)
 {
-	char *path;
-	char *full_path;
+	char	*path;
+	char	*full_path;
 
 	path = ft_strjoin(dir, "/");
 	if (!path)
@@ -27,7 +53,7 @@ static char	*join_path(char *dir, char *file)
 
 static char	**get_env_paths(char **env)
 {
-	char *path_env;
+	char	*path_env;
 
 	if (!env)
 		return (NULL);
@@ -71,8 +97,13 @@ char	*get_path(char *command, char **env)
 		return (NULL);
 	split_command = ft_split(command, ' ');
 	if (!split_command)
-		return (free_matrixes(NULL, paths), NULL);
+		return (free_matrix(paths), NULL);
 	result = search_in_paths(paths, split_command[0]);
+	if (!result)
+	{
+		free_matrixes(split_command, paths);
+		return (NULL);
+	}
 	free_matrixes(split_command, paths);
 	return (result);
 }
