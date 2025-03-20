@@ -6,7 +6,7 @@
 #    By: marcnava <marcnava@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/06 04:37:29 by marcnava          #+#    #+#              #
-#    Updated: 2025/03/20 08:18:27 by marcnava         ###   ########.fr        #
+#    Updated: 2025/03/20 10:22:31 by marcnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ OBJS_BONUS	=	$(SRCS_BONUS:$(BONUS)/%.c=$(BUILD)/%.o)
 #		RULES		#
 
 run:
-				@make -s animate &
+				# @make -s animate &
 				@$(MAKE) -s all
 				@wait $$!
 .PHONY: run
@@ -86,9 +86,9 @@ $(BUILD)/%.o:	$(SRCSPATH)/%.c
 				@mkdir -p $(@D)
 				@$(COMPILER) -I$(INCLUDE) -c $< -o $@
 
-$(BUILD)/%.o:	$(BONUS)/%.c
-				@mkdir -p $(@D)
-				@$(COMPILER) -I$(INCLUDE) -c $< -o $@
+# $(BUILD)/%.o:	$(BONUS)/%.c
+# 				@mkdir -p $(@D)
+# 				@$(COMPILER) -I$(INCLUDE) -c $< -o $@
 
 bonus:			$(OBJS_BONUS) $(LIBFT)/libft.a
 				@$(COMPILER) -I$(INCLUDE) $(OBJS_BONUS) $(LIBFT)/libft.a -o $(NAME)
